@@ -3,9 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@cmsgov/design-system-core": "~3.7.0",
+    "@cmsgov/design-system-layout": "~3.7.0",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "node-sass": "^4.14.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1"
@@ -14,7 +17,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "copy-assets": "cp -r ./node_modules/@cmsgov/design-system-core/{fonts,images} ./public",
+    "clean-assets": "rm -rf ./public/{fonts,images}"
   },
   "eslintConfig": {
     "extends": "react-app"
