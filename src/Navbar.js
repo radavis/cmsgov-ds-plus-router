@@ -2,12 +2,6 @@ import React, { useState } from "react";
 import { VerticalNav } from '@cmsgov/design-system-core';
 import { Link as ReactRouterLink } from 'react-router-dom'
 
-const Link = (props) => (
-  <ReactRouterLink to={props.href} {...props}>
-    {props.children}
-  </ReactRouterLink>
-);
-
 const links = [
   {
     id: 'thing-1',
@@ -21,8 +15,15 @@ const links = [
   },
 ]
 
+// wrap react-router's Link, so that the VerticalNav parent renders it properly
+const Link = ({ children, href, ...rest }) => (
+  <ReactRouterLink to={href} {...rest}>
+    {children}
+  </ReactRouterLink>
+);
+
 const Navbar = () => {
-  const [selectedId, setSelectedId] = useState('thing-1')
+  const [selectedId, setSelectedId] = useState('')
   const handleClick = (event, id, url) => {
     setSelectedId(id)
   }
