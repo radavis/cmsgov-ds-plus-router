@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 import { VerticalNav } from '@cmsgov/design-system-core';
-import { Link } from 'react-router-dom'
+import { Link as ReactRouterLink } from 'react-router-dom'
+
+const Link = (props) => (
+  <ReactRouterLink to={props.href} {...props}>
+    {props.children}
+  </ReactRouterLink>
+);
 
 const links = [
   {
