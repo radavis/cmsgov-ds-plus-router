@@ -1,11 +1,10 @@
 import React from 'react'
 import {
-  BrowserRouter as Router,
   Switch,
   Route,
   useParams
 } from "react-router-dom"
-import Navbar from './Navbar'
+import Nav from './features/nav/Nav'
 
 const Thing1 = props => <div>Thing 1</div>
 const Thing2 = props => <div>Thing 2</div>
@@ -16,14 +15,14 @@ const SubItem = props => {
 }
 
 const App = props => (
-  <Router>
-    <Navbar />
+  <React.Fragment>
+    <Nav />
     <Switch>
       <Route path="/thing-one" component={Thing1} />
       <Route path="/thing-two" component={Thing2} />
       <Route path="/items/:id" component={SubItem} />
     </Switch>
-  </Router>
+  </React.Fragment>
 )
 
 export default App
