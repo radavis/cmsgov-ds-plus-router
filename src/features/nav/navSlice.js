@@ -1,50 +1,38 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { LOCATION_CHANGE } from 'connected-react-router';
+import getNavItems from './getNavItems'
 
-const links = [
-  {
-    id: 'thing-1',
-    label: 'Thing 1',
-    url: '/thing-one'
-  },
-  {
-    id: 'thing-2',
-    label: 'Thing 2',
-    url: '/thing-two'
-  },
-  {
-    id: 'list',
-    label: 'List',
-    defaultCollapsed: true,
-    items: [
-      {
-        id: 'sub-item-1',
-        label: 'SubItem 1',
-        url: '/items/1'
-      },
-      {
-        id: 'sub-item-2',
-        label: 'SubItem 2',
-        url: '/items/2'
-      },
-      {
-        id: 'sub-item-3',
-        label: 'SubItem 3',
-        url: '/items/3'
-      }
-    ]
+const mergeByUrl = (result, node) => {
+  result[node.url] = node;
+  if (Array.isArray(node.items)) {
+    node.items.reduce(mergeByUrl, result);
   }
-]
+  return result;
+}
+
+const randomInt = (max, min = 0) => Math.floor(Math.random() * (max - min) ) + min;
 
 const initialState = {
-  links,
+  items: getNavItems(),
   selectedId: null
 }
 
 const reducer = createReducer(initialState, builder => {
   builder
     .addCase(LOCATION_CHANGE, (state, action) => {
-      state.selectedId = action.payload.location.pathname.substring(1).replace(/\//g, '-')
+      // get selectedId from pathname
+
+      // const itemsByUrl = items.reduce(mergeByUrl, {});
+      const { pathname, hash } = action.payload.location;
+      state.items = getNavItems({ items: state.items, url: [pathname, hash].join('') })
+    })
+    .addCase('TOGGLE_COLLAPSE', (state) => {
+      state.items[2].defaultCollapsed = !state.items[2].defaultCollapsed;
+      // only works if we update another field, such as id
+      state.items[2].id = `item-${randomInt(1000)}`;
+    })
+    .addCase('TOGGLE_ITEM_1_SELECTED', (state, action) => {
+      state.items[2].items[0].selected = !state.items[2].items[0].selected;
     })
 })
 
